@@ -9,8 +9,10 @@ class UrlsRepository implements IUrlsRepository {
     constructor() {
         this.urls = [];
     }
-    findUrl(id: string): Url {
-        throw new Error('Method not implemented.');
+    findUrlByCode(code: string): Url {
+        const url = this.urls.find(url => url.code === code);
+
+        return url;
     }
     createCode(): string {
         return 'iahbdbdibf';
@@ -28,7 +30,7 @@ class UrlsRepository implements IUrlsRepository {
 
         return newUrl;
     }
-    deleteUrl(id: string): void {
+    deleteUrl(code: string): void {
         throw new Error('Method not implemented.');
     }
     list(): Url[] {

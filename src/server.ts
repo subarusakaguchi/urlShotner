@@ -6,9 +6,9 @@ import { shortenerRoute } from './routes/shortener.routes';
 const app = express();
 const PORT = 5555;
 
-app.use('/', redirectRoute);
 app.use(express.json());
 app.use('/short', shortenerRoute);
+app.use('/', redirectRoute);
 
 app.listen(PORT, () => {
     console.log(`Server is Running on port: ${PORT}`);

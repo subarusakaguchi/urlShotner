@@ -7,10 +7,10 @@ interface IUrlsRepositoryDTO {
 
 interface IUrlsRepository {
     list(): Url[];
-    findUrl(id: string): Url;
+    findUrlByCode(code: string): Url;
     createCode(): string;
     createUrl({ url, code }: IUrlsRepositoryDTO): Url;
-    deleteUrl(id: string): void;
+    deleteUrl(code: string): void;
 }
 
 export { IUrlsRepository, IUrlsRepositoryDTO };
