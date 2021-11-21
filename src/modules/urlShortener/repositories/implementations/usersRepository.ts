@@ -26,11 +26,15 @@ class UsersRepository implements IUsersRepository {
     findUrlByCode(code: string): Url {
         let url: Url;
 
-        this.users.forEach(user => {
-            url = user.links.find(link => {
-                return link.code === code;
-            });
+        this.users.every(user => {
+            url = user.links.find(link => link.code === code);
+            if (url) {
+                return false;
+            }
+            return true;
         });
+
+        console.log(url);
 
         return url;
     }
