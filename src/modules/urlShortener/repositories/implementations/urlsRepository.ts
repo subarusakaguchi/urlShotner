@@ -15,8 +15,38 @@ class UrlsRepository implements IUrlsRepository {
         return url;
     }
     createCode(): string {
-        return 'iahbdbdibf';
+        let code = '';
+
+        let verify = this.verifyCode(code);
+
+        while (verify) {
+            code = '';
+            for (let j = 0; j < 9; j++) {
+                let symbol = Math.random().toString(36).slice(2, 3);
+                if (symbol.match(/[a-z]/i)) {
+                    const random = Math.floor(Math.random() * 10);
+                    if (random % 2 === 0) {
+                        symbol = symbol.toUpperCase();
+                    }
+                }
+                code += symbol;
+            }
+
+            verify = this.verifyCode(code);
+        }
+
+        return code;
     }
+
+    verifyCode(code: string): boolean {
+        const url = this.urls.find(url => url.code === code);
+        if (url || code === '') {
+            return true;
+        }
+
+        return false;
+    }
+
     createUrl({ url, code }: IUrlsRepositoryDTO): Url {
         const newUrl = new Url();
 

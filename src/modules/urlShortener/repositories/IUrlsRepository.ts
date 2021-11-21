@@ -8,6 +8,7 @@ interface IUrlsRepositoryDTO {
 interface IUrlsRepository {
     list(): Url[];
     findUrlByCode(code: string): Url;
+    verifyCode(code: string): boolean;
     createCode(): string;
     createUrl({ url, code }: IUrlsRepositoryDTO): Url;
     deleteUrl(code: string): void;

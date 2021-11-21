@@ -7,9 +7,9 @@ class CreateShortenedUrlController {
     handle(req: Request, res: Response): Response {
         const { url } = req.body;
 
-        const shortenedUrl = this.createShortenedUrlUseCase.execute({ url });
+        const code = this.createShortenedUrlUseCase.execute({ url });
 
-        return res.status(201).json({ url: shortenedUrl });
+        return res.status(201).json({ url_code: code });
     }
 }
 
