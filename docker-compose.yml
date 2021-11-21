@@ -1,2 +1,30 @@
-version: 3.9
+version: "3.9"
 
+services:
+    database_usersUrls:
+        image: postgres
+        container_name: database_usersUrls
+        restart: always
+        ports:
+            - 5432:5432
+        environment:
+            - POSTGRES_USER=urlshortener
+            - POSTGRES_PASSWORD=encurtadordelinks
+            - POSTGRES_DB=urlsdb
+        volumes:
+            - pgdata:/data/postgres
+    app:
+        build: .
+        container_name: url-shortener
+        ports:
+            - 5555:5555
+        volumes:
+            - .:/url/app
+        links:
+            - database_usersUrls
+        depends_on:
+            - database_usersUrls
+
+volumes:
+    pgdata:
+        driver: local
