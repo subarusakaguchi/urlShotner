@@ -1,3 +1,5 @@
+import { v4 as uuidv4, validate } from 'uuid';
+
 import { Url } from '../../entities/urls';
 import { IUrlsRepository, IUrlsRepositoryDTO } from '../IUrlsRepository';
 
@@ -9,6 +11,11 @@ class UrlsRepository implements IUrlsRepository {
     constructor() {
         this.urls = [];
     }
+
+    createUserId(): string {
+        return uuidv4();
+    }
+
     findUrlByCode(code: string): Url {
         const url = this.urls.find(url => url.code === code);
 
@@ -38,6 +45,16 @@ class UrlsRepository implements IUrlsRepository {
         return code;
     }
 
+    verifyUuid(uuid: string): boolean {
+        return validate(uuid);
+    }
+
+    findUserById(user_id: string) {
+        const user = this.urls.find(url => url.user_id === user_id);
+
+        return user;
+    }
+
     verifyCode(code: string): boolean {
         const url = this.urls.find(url => url.code === code);
         if (url || code === '') {
@@ -47,10 +64,11 @@ class UrlsRepository implements IUrlsRepository {
         return false;
     }
 
-    createUrl({ url, code }: IUrlsRepositoryDTO): Url {
+    createUrl({ url, code, user_id }: IUrlsRepositoryDTO): Url {
         const newUrl = new Url();
 
         Object.assign(newUrl, {
+            user_id,
             original_url: url,
             code,
             created_at: new Date(),

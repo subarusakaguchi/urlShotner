@@ -5,9 +5,9 @@ import { CreateShortenedUrlUseCase } from './CreateShortenedUrlUseCase';
 class CreateShortenedUrlController {
     constructor(private createShortenedUrlUseCase: CreateShortenedUrlUseCase) {}
     handle(req: Request, res: Response): Response {
-        const { url } = req.body;
+        const { url, user_id } = req.body;
 
-        const code = this.createShortenedUrlUseCase.execute({ url });
+        const code = this.createShortenedUrlUseCase.execute({ url, user_id });
 
         return res.status(201).json({ url_code: code });
     }
