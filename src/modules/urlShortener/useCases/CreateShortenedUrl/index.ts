@@ -1,10 +1,12 @@
-import { UrlsRepository } from '../../repositories/implementations/urlsRepository';
+import { UsersRepository } from '../../repositories/implementations/usersRepository';
 import { CreateShortenedUrlController } from './CreateShortenedUrlController';
 import { CreateShortenedUrlUseCase } from './CreateShortenedUrlUseCase';
 
-const urlsRepository = UrlsRepository.getInstance();
+const usersRepository = UsersRepository.getInstance();
 
-const createShortenedUrlUseCase = new CreateShortenedUrlUseCase(urlsRepository);
+const createShortenedUrlUseCase = new CreateShortenedUrlUseCase(
+    usersRepository,
+);
 
 const createShortenedUrlController = new CreateShortenedUrlController(
     createShortenedUrlUseCase,

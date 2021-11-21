@@ -7,9 +7,16 @@ class CreateShortenedUrlController {
     handle(req: Request, res: Response): Response {
         const { url, user_id } = req.body;
 
-        const code = this.createShortenedUrlUseCase.execute({ url, user_id });
+        try {
+            const code = this.createShortenedUrlUseCase.execute({
+                url,
+                user_id,
+            });
 
-        return res.status(201).json({ url_code: code });
+            return res.status(201).json({ url_code: code });
+        } catch (error) {
+            return res.status(404).json({ error: 'User not Found' });
+        }
     }
 }
 

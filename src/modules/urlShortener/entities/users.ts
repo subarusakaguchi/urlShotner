@@ -1,16 +1,18 @@
 import { v4 as uuidv4 } from 'uuid';
 
-class Url {
+import { Url } from './urls';
+
+class User {
     id?: string;
-    code: string;
-    original_url: string;
-    created_At: Date;
+    created_at: Date;
+    links?: Url[];
 
     constructor() {
         if (!this.id) {
             this.id = uuidv4();
+            this.links = [];
         }
     }
 }
 
-export { Url };
+export { User };

@@ -1,4 +1,4 @@
-import { IUrlsRepository } from '../../repositories/IUrlsRepository';
+import { IUsersRepository } from '../../repositories/IUsersRepository';
 
 interface IRequest {
     url: string;
@@ -6,11 +6,15 @@ interface IRequest {
 }
 
 class CreateShortenedUrlUseCase {
-    constructor(private urlsRepository: IUrlsRepository) {}
+    constructor(private usersRepository: IUsersRepository) {}
     execute({ url, user_id }: IRequest): string {
-        const code = this.urlsRepository.createCode();
+        const user = this.usersRepository.findUserById(user_id);
 
-        const newUrl = this.urlsRepository.createUrl({ url, code, user_id });
+        if (!user) {
+            throw new Error('User not Found');
+        }
+
+        const newUrl = this.usersRepository.createUrl({ url, user_id });
 
         return newUrl.code;
     }

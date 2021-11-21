@@ -1,14 +1,14 @@
 import { Url } from '../../entities/urls';
-import { IUrlsRepository } from '../../repositories/IUrlsRepository';
+import { IUsersRepository } from '../../repositories/IUsersRepository';
 
 interface IRequest {
     code: string;
 }
 
 class RedirectUrlUseCase {
-    constructor(private urlsRepository: IUrlsRepository) {}
+    constructor(private usersRepository: IUsersRepository) {}
     execute({ code }: IRequest): Url {
-        const url = this.urlsRepository.findUrlByCode(code);
+        const url = this.usersRepository.findUrlByCode(code);
 
         return url;
     }

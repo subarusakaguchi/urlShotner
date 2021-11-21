@@ -1,10 +1,10 @@
-import { UrlsRepository } from '../../repositories/implementations/urlsRepository';
+import { UsersRepository } from '../../repositories/implementations/usersRepository';
 import { RedirectUrlController } from './RedirectUrlController';
 import { RedirectUrlUseCase } from './RedirectUrlUseCase';
 
-const urlsRepository = UrlsRepository.getInstance();
+const usersRepository = UsersRepository.getInstance();
 
-const redirectUrlUseCase = new RedirectUrlUseCase(urlsRepository);
+const redirectUrlUseCase = new RedirectUrlUseCase(usersRepository);
 
 const redirectUrlController = new RedirectUrlController(redirectUrlUseCase);
 
