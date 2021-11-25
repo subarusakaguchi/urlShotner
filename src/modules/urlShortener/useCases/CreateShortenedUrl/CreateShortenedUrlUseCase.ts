@@ -19,11 +19,19 @@ class CreateShortenedUrlUseCase {
     async execute({ url, user_id }: IRequest): Promise<string> {
         const user = await this.usersRepository.findUserById(user_id);
 
+        console.log(user);
+
         if (!user) {
             throw new Error('User not Found');
         }
 
-        const newUrl = await this.urlsRepository.createUrl({ url, user_id });
+        const newUrl = await this.urlsRepository.createUrl({
+            url,
+            user_id,
+            user,
+        });
+
+        console.log(newUrl);
 
         return newUrl.code;
     }

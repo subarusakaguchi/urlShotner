@@ -50,12 +50,16 @@ class UrlsRepository implements IUrlsRepository {
         return code;
     }
 
-    async createUrl({ url, user_id }: IUrlsRepositoryDTO): Promise<Url> {
+    async createUrl({ url, user_id, user }: IUrlsRepositoryDTO): Promise<Url> {
+        const code = await this.createCode();
+
         const newUrl = await this.repository.create({
             original_url: url,
-            user: user_id,
-            code: await this.createCode,
+            user,
+            code,
         });
+
+        console.log(newUrl);
 
         await this.repository.save(newUrl);
 

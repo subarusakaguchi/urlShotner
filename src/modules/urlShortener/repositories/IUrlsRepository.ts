@@ -1,8 +1,10 @@
 import { Url } from '../entities/urls';
+import { User } from '../entities/users';
 
 interface IUrlsRepositoryDTO {
     url: string;
     user_id: string;
+    user: User;
 }
 
 interface IUrlsRepository {
