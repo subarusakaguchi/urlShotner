@@ -1,35 +1,33 @@
 import { inject, injectable } from 'tsyringe';
 
+import { Url } from '../../entities/urls';
 import { IUrlsRepository } from '../../repositories/IUrlsRepository';
 import { IUsersRepository } from '../../repositories/IUsersRepository';
 
 interface IRequest {
-    url: string;
     user_id: string;
 }
 
 @injectable()
-class CreateShortenedUrlUseCase {
+class CatchUrlsFromUserUseCase {
     constructor(
-        @inject('UsersRepository')
-        private usersRepository: IUsersRepository,
         @inject('UrlsRepository')
         private urlsRepository: IUrlsRepository,
+        @inject('UsersRepository')
+        private usersRepository: IUsersRepository,
     ) {}
-    async execute({ url, user_id }: IRequest): Promise<string> {
+
+    async execute({ user_id }: IRequest): Promise<Url[]> {
         const user = await this.usersRepository.findUserById(user_id);
 
         if (!user) {
-            throw new Error('User not Found');
+            throw new Error('User not found');
         }
 
-        const newUrl = await this.urlsRepository.createUrl({
-            url,
-            user,
-        });
+        const codes = await this.urlsRepository.catchAllUrlsFromUser(user);
 
-        return newUrl.code;
+        return codes;
     }
 }
 
-export { CreateShortenedUrlUseCase };
+export { CatchUrlsFromUserUseCase };

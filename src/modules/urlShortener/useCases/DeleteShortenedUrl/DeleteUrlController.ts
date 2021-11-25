@@ -5,10 +5,10 @@ import { DeleteUrlUseCase } from './DeleteUrlUseCase';
 
 class DeleteUrlController {
     async handle(req: Request, res: Response): Promise<Response> {
-        const deleteUrlUseCase = container.resolve(DeleteUrlUseCase);
+        const { code, user_id } = req.body;
 
         try {
-            const { code, user_id } = req.body;
+            const deleteUrlUseCase = container.resolve(DeleteUrlUseCase);
 
             await deleteUrlUseCase.execute({ code, user_id });
         } catch (error) {

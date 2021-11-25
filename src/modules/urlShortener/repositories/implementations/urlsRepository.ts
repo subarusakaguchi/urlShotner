@@ -1,3 +1,4 @@
+import { User } from 'modules/urlShortener/entities/users';
 import { getRepository, Repository } from 'typeorm';
 
 import { Url } from '../../entities/urls';
@@ -8,6 +9,12 @@ class UrlsRepository implements IUrlsRepository {
 
     constructor() {
         this.repository = getRepository(Url);
+    }
+
+    async catchAllUrlsFromUser(user: User): Promise<Url[]> {
+        const codes = await this.repository.find({ user });
+
+        return codes;
     }
 
     async findUrlByCode(code: string): Promise<Url> {
@@ -33,7 +40,7 @@ class UrlsRepository implements IUrlsRepository {
 
         while (verify) {
             code = '';
-            for (let j = 0; j < 9; j++) {
+            for (let j = 0; j < 9; j += 1) {
                 let symbol = Math.random().toString(36).slice(2, 3);
                 if (symbol.match(/[a-z]/i)) {
                     const random = Math.floor(Math.random() * 10);
@@ -50,7 +57,7 @@ class UrlsRepository implements IUrlsRepository {
         return code;
     }
 
-    async createUrl({ url, user_id, user }: IUrlsRepositoryDTO): Promise<Url> {
+    async createUrl({ url, user }: IUrlsRepositoryDTO): Promise<Url> {
         const code = await this.createCode();
 
         const newUrl = await this.repository.create({
@@ -59,14 +66,12 @@ class UrlsRepository implements IUrlsRepository {
             code,
         });
 
-        console.log(newUrl);
-
         await this.repository.save(newUrl);
 
         return newUrl;
     }
 
-    async deleteUrl(code: string, user_id: string): Promise<void> {
+    async deleteUrl(code: string): Promise<void> {
         await this.repository.delete({ code });
     }
 }
