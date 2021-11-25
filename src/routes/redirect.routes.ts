@@ -1,11 +1,11 @@
 import Router from 'express';
 
-import { redirectUrlController } from '../modules/urlShortener/useCases/RedirectUrl';
+import { RedirectUrlController } from '../modules/urlShortener/useCases/RedirectUrl/RedirectUrlController';
 
 const redirectRoute = Router();
 
-redirectRoute.get('/:code', (req, res) => {
-    return redirectUrlController.handle(req, res);
-});
+const redirectUrlController = new RedirectUrlController();
+
+redirectRoute.get('/:code', redirectUrlController.handle);
 
 export { redirectRoute };

@@ -1,16 +1,15 @@
 import Router from 'express';
 
-import { createUserController } from '../modules/urlShortener/useCases/CreateUser';
-import { listUsersController } from '../modules/urlShortener/useCases/ListUsers';
+import { CreateUserController } from '../modules/urlShortener/useCases/CreateUser/CreateUserControllert';
+import { ListUsersController } from '../modules/urlShortener/useCases/ListUsers/ListUsersControllers';
 
 const userRouter = Router();
 
-userRouter.post('/', (req, res) => {
-    return createUserController.handle(req, res);
-});
+const createUserController = new CreateUserController();
+const listUsersController = new ListUsersController();
 
-userRouter.get('/all', (req, res) => {
-    return listUsersController.handle(req, res);
-});
+userRouter.post('/', createUserController.handle);
+
+userRouter.get('/all', listUsersController.handle);
 
 export { userRouter };

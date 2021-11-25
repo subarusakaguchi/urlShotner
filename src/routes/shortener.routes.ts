@@ -1,16 +1,15 @@
 import Router from 'express';
 
-import { createShortenedUrlController } from '../modules/urlShortener/useCases/CreateShortenedUrl';
-import { deleteUrlController } from '../modules/urlShortener/useCases/DeleteShortenedUrl';
+import { CreateShortenedUrlController } from '../modules/urlShortener/useCases/CreateShortenedUrl/CreateShortenedUrlController';
+import { DeleteUrlController } from '../modules/urlShortener/useCases/DeleteShortenedUrl/DeleteUrlController';
 
 const shortenerRoute = Router();
 
-shortenerRoute.post('/', (req, res) => {
-    return createShortenedUrlController.handle(req, res);
-});
+const createShortenedUrlController = new CreateShortenedUrlController();
+const deleteUrlController = new DeleteUrlController();
 
-shortenerRoute.delete('/', (req, res) => {
-    return deleteUrlController.handle(req, res);
-});
+shortenerRoute.post('/', createShortenedUrlController.handle);
+
+shortenerRoute.delete('/', deleteUrlController.handle);
 
 export { shortenerRoute };

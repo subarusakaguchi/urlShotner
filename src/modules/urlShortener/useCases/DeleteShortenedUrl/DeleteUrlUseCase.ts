@@ -1,3 +1,6 @@
+import { inject, injectable } from 'tsyringe';
+
+import { IUrlsRepository } from '../../repositories/IUrlsRepository';
 import { IUsersRepository } from '../../repositories/IUsersRepository';
 
 interface IRequest {
@@ -5,22 +8,28 @@ interface IRequest {
     user_id: string;
 }
 
+@injectable()
 class DeleteUrlUseCase {
-    constructor(private usersRepository: IUsersRepository) {}
-    execute({ code, user_id }: IRequest) {
-        const user = this.usersRepository.findUserById(user_id);
+    constructor(
+        @inject('UsersRepository')
+        private usersRepository: IUsersRepository,
+        @inject('UrlsRepository')
+        private urlsRepository: IUrlsRepository,
+    ) {}
+    async execute({ code, user_id }: IRequest): Promise<void> {
+        const user = await this.usersRepository.findUserById(user_id);
 
         if (!user) {
             throw new Error('User not found');
         }
 
-        const url = this.usersRepository.findUrlByCode(code);
+        const url = await this.urlsRepository.findUrlByCode(code);
 
         if (!url) {
             throw new Error('Url not found');
         }
 
-        this.usersRepository.deleteUrl(code, user_id);
+        await this.urlsRepository.deleteUrl(code, user_id);
     }
 }
 

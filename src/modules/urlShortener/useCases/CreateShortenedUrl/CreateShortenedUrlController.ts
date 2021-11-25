@@ -1,14 +1,18 @@
 import { Request, Response } from 'express';
+import { container } from 'tsyringe';
 
 import { CreateShortenedUrlUseCase } from './CreateShortenedUrlUseCase';
 
 class CreateShortenedUrlController {
-    constructor(private createShortenedUrlUseCase: CreateShortenedUrlUseCase) {}
-    handle(req: Request, res: Response): Response {
+    async handle(req: Request, res: Response): Promise<Response> {
         const { url, user_id } = req.body;
 
+        const createShortenedUrlUseCase = container.resolve(
+            CreateShortenedUrlUseCase,
+        );
+
         try {
-            const code = this.createShortenedUrlUseCase.execute({
+            const code = await createShortenedUrlUseCase.execute({
                 url,
                 user_id,
             });
